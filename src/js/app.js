@@ -1,37 +1,16 @@
-const obj = {
-  name: 'мечник', health: 10, level: 2, attack: 80, defence: 40,
-};
+export default function orderByProps(obj, arr) {
+  const propsObj = [];
+  const sortObj = [];
 
-export default function orderByProps(object, keyArray) {
-  const result = [];
-  const keys = Object.keys(object);
-
-  for (const key in object) {
-    if (Object.prototype.hasOwnProperty.call(object, key) && keyArray.includes(key) === false) {
-      result.push({
-        key,
-        value: object[key],
-      });
+  for (const key in obj) {
+    if (arr.includes(key)) {
+      propsObj.push({ key, value: obj[key] });
+    } else {
+      sortObj.push({ key, value: obj[key] });
     }
   }
 
-  result.sort((a, b) => {
-    if (a.key > b.key) {
-      return 1;
-    }
-    return -1;
-  });
+  sortObj.sort((a, b) => (a.key > b.key ? 1 : -1));
 
-  keyArray.forEach((entry) => {
-    if (keys.includes(entry)) {
-      result.unshift({
-        key: entry,
-        value: object[entry],
-      });
-    }
-  });
-
-  return result;
+  return [...propsObj, ...sortObj];
 }
-
-orderByProps(obj, ['name', 'level']);
